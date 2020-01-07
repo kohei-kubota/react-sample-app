@@ -12,7 +12,8 @@ class Mainarea extends Component {
         { label: 'Todo2' },
         { label: 'Todo3' },
         { label: 'Todo4' },
-      ]
+      ],
+      todoInputValue: ''
     }
   }
 
@@ -25,12 +26,33 @@ class Mainarea extends Component {
     return todoItemDom;
   }
 
+  onChangeTodoInput(event) {
+
+    this.setState({ todoInputValue: event.target.value })
+  }
+
+  onClickAddButton(event) {
+
+    let addItem = { label: this.state.todoInputValue };
+    let todos = this.state.todos.slice();
+    todos.push(addItem);
+
+    this.setState({
+      todos: todos,
+      todoInputValue: ''
+    });
+  }
+
   render() {
 
     return (
       <div className='main-area'>
         <Header />
         <main className='list-area'>
+          <div className='todo-input-area'>
+            <input type="text" className='todo-input' placeholder='Todoを追加' value={this.state.todoInputValue} onChange={this.onChangeTodoInput.bind(this)} />
+            <button className='add-button' onClick={this.onClickAddButton.bind(this)}>登録</button>
+          </div>
           <ul className='todo-list'>
             {this.renderTodoItems()}
           </ul>
